@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 Les Pluies de Juillet - Module de Planification & Billetterie
 
-## Getting Started
+> Prototype fonctionnel développé dans le cadre d'un partiel blanc de Master - Février 2026.
 
-First, run the development server:
+## 📋 Contexte du Projet
+
+Ce projet vise à réinternaliser la gestion de la billetterie et de la planification du festival **Les Pluies de Juillet**. L'objectif est d'offrir une expérience utilisateur fluide, mobile-first, ciblant spécifiquement les 18-25 ans, pour permettre aux festivaliers de :
+1. Consulter le programme des conférences.
+2. Vérifier leur éligibilité (billet acheté).
+3. Construire leur agenda personnalisé.
+
+## 🛠 Stack Technique & Architecture
+
+En tant que Lead Développeur, j'ai sélectionné une stack moderne privilégiant la performance, la sécurité et la maintenabilité.
+
+| Techno | Usage | Justification du choix |
+| :--- | :--- | :--- |
+| **Next.js 15 (App Router)** | Framework Fullstack | Rendu Hybride (SSR/CSR) pour un SEO optimal et une navigation instantanée. |
+| **TypeScript** | Langage | Robustesse du code, typage fort pour éviter les erreurs de runtime. |
+| **Prisma** | ORM | Manipulation de données type-safe et migrations simplifiées. |
+| **PostgreSQL** (Dev) | Base de données | Base relationnelle robuste, adaptée aux besoins complexes du projet. |
+| **Tailwind CSS** | Styling | Développement rapide d'interfaces responsive et cohérentes. |
+| **NextAuth.js** | Authentification | Solution éprouvée et sécurisée pour la gestion de session. |
+
+### 📂 Structure du projet
+
+L'architecture suit les principes du "Clean Code" et de la séparation des responsabilités :
+
+```bash
+├── 📁 app/             # Pages et Routes API (Next.js App Router)
+├── 📁 components/      # Composants React réutilisables (UI)
+│   ├── ui/             # Composants atomiques (Boutons, Cards...)
+│   └── ...
+├── 📁 lib/             # Logique métier et utilitaires (ex: db.ts, utils.ts)
+├── 📁 prisma/          # Schéma de base de données et script de Seed
+└── 📄 public/          # Assets statiques
+```
+
+## 🚀 Installation & Démarrage
+
+Suivez ces instructions pour lancer le projet en local.
+
+## Prérequis
+- Node.js 18+
+- npm ou yarn
+
+1. Clonez le dépôt :
+
+```bash
+git clone https://github.com/arthur-plp/festival-pluies.git
+cd festival-pluies-juillet
+```
+2. Installez les dépendances :
+
+```bash
+npm install
+# ou
+yarn install
+```
+
+3. Configuration de l'environnement
+
+Renommez le fichier `.env.example` en `.env` (ou créez-le) : 
+
+```bash
+# .env
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET="une_cle_secrete_aleatoire"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+4. Base de données & Seed
+
+Initialisez la base de données et remplissez-la avec les données de test (20 conférences réalistes) :
+
+```bash
+npx prisma migrate dev --name init
+npx prisma db seed
+```
+
+**Note** : Le script de seed crée automatiquement deux utilisateurs pour tester les rôles :
+- Utilisateur AVEC billet : `admin@test.com` / `password123`
+- Utilisateur SANS billet : `newbie@test.com` / `password123`
+
+5. Lancer le serveur de développement :
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✅ Fonctionnalités Implémentées
+- [x] Authentification : Création de compte et Connexion.
+- [x] Catalogue : Liste des conférences avec filtres (Thème/Date).
+- [x] Logique Métier : Vérification de la possession d'un billet avant réservation.
+- [x] Agenda Perso : Ajout/Retrait de conférences à "Mon Programme".
+- [ ] Paiement (Mocké) : Simulation d'achat de billet.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤖 Utilisation de l'IA
+Conformément aux contraintes du projet, des outils d'IA ont été utilisés :
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ChatGPT (OpenAI) : Génération du jeu de données (Seed) pour peupler la base avec des événements réalistes, et brainstorming sur le schéma de base de données.
 
-## Learn More
+- GitHub Copilot : Aide à l'écriture des différents composants React et fonctions utilitaires.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+##
+Projet réalisé par Arthur PHILIPPE - Partiel février 2026
