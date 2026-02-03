@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashé bien sûr
+  name      String?
+  hasTicket Boolean  @default(false) // Le coeur du sujet : a-t-il acheté son billet ?
+  
+  bookings  Booking[] // Ses réservations de conférences
+  
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  speaker     String?  // Nom de l'intervenant
+  location    String   // Ex: "Grande Scène", "Tente Agoras"
+  category    String   // Ex: "Climat", "Biodiversité", "Concert"
+  
+  startDateTime DateTime
+  endDateTime   DateTime
+  
+  capacity    Int      // Bonus: Limite de places
+  bookings    Booking[]
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  userId    String
+  eventId   String
+  bookedAt  DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  // Un user ne peut réserver qu'une fois le même event
+  @@unique([userId, eventId]) 
+}
