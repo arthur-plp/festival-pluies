@@ -4,6 +4,7 @@ import { getEvents } from "@/lib/data";
 import EventCard from "@/components/EventCard";
 import HeroSection from "@/components/HeroSection";
 import SearchFilters from "@/components/SearchFilters";
+import TicketingSection from "@/components/TicketingSection";
 
 export default async function Home({
   searchParams,
@@ -20,6 +21,8 @@ export default async function Home({
   return (
     <div className="space-y-20">
       <HeroSection />
+
+      <TicketingSection />
 
       {/* Stats Section */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-6">

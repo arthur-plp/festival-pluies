@@ -54,3 +54,35 @@ export async function toggleBooking(eventId: string) {
     return { error: "Une erreur est survenue." };
   }
 }
+
+export async function processTicketPayment() {
+  const session = await getServerSession(authOptions);
+
+  console.log("🔍 Session reçue:", session?.user?.id);
+
+  if (!session || !session.user) {
+    console.log("❌ Pas de session");
+    return { error: "Vous devez être connecté." };
+  }
+
+  if (session.user.hasTicket) {
+    console.log("❌ User a déjà un ticket");
+    return { error: "Vous possédez déjà un billet." };
+  }
+
+  try {
+    console.log("💳 Mise à jour du user:", session.user.id);
+    const updatedUser = await prisma.user.update({
+      where: { id: session.user.id },
+      data: { hasTicket: true },
+    });
+    
+    console.log("✅ User mis à jour:", updatedUser);
+
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("❌ Erreur paiement:", error);
+    return { error: "Une erreur est survenue lors du paiement." };
+  }
+}
