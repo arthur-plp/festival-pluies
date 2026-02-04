@@ -1,130 +1,81 @@
-"use client";
+import Link from "next/link";
+import { Calendar, Users, Music, Mic, Palette, Mail, ArrowRight, Sparkles, MapPin, Search } from "lucide-react";
+import { getEvents } from "@/lib/data";
+import EventCard from "@/components/EventCard";
+import HeroSection from "@/components/HeroSection";
+import SearchFilters from "@/components/SearchFilters";
 
-import { useSession, signIn, signOut } from "next-auth/react";
-
-export default function Home() {
-  const { data: session } = useSession();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; category?: string }>;
+}) {
+  // Récupérer les données
+  const params = await searchParams;
+  const query = params?.q || "";
+  const category = params?.category || "all";
+  
+  const events = await getEvents(query, category);
 
   return (
     <div className="space-y-20">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-b from-[var(--background)] via-[var(--card)] to-[var(--background)] p-8 md:p-12 shadow-sm">
-        <div className="absolute inset-0 opacity-25">
-          <div className="h-full w-full bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.15),transparent_55%)]" />
+      <HeroSection />
+
+      {/* Stats Section */}
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {[
+          { icon: Music, label: "Concerts", value: "20+" },
+          { icon: Mic, label: "Conférences", value: "15+" },
+          { icon: Palette, label: "Ateliers", value: "30+" },
+          { icon: Users, label: "Participants", value: "5000+" },
+        ].map((stat, i) => (
+          <div key={i} className="card text-center space-y-3">
+            <stat.icon size={32} className="mx-auto text-[var(--primary)]" />
+            <div className="text-3xl font-bold text-[var(--foreground)]">{stat.value}</div>
+            <div className="text-sm text-[var(--muted-foreground)]">{stat.label}</div>
+          </div>
+        ))}
+      </section>
+
+      {/* Programmation Section */}
+      <section id="programmation" className="space-y-10">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl md:text-4xl font-bold text-[var(--foreground)]">
+            Programmation 2026
+          </h2>
+          <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
+            Découvrez les conférences, concerts et ateliers des Pluies de Juillet.
+            Planifiez votre parcours engagé dès maintenant.
+          </p>
         </div>
 
-        <div className="relative grid items-center gap-12 lg:grid-cols-2">
-          <div className="space-y-8">
-            <div className="badge-primary gap-2">
-              <span className="h-2 w-2 rounded-full bg-[var(--primary-foreground)] animate-pulse" />
-              12-14 juillet 2026 • Rouen, Normandie
-            </div>
+        {/* Filtres de recherche */}
+        <SearchFilters />
 
-            <h1 className="text-4xl md:text-6xl font-bold text-[var(--foreground)] leading-tight">
-              Les Pluies de
-              <span className="block text-[var(--primary)]">Juillet</span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-[var(--muted-foreground)] leading-relaxed max-w-xl">
-              Un festival écologique qui célèbre la musique, l&apos;art et l&apos;engagement environnemental.
-              Trois jours d&apos;émotions au rythme de la nature.
+        {/* Grille des événements */}
+        {events.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {events.slice(0, 6).map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
+        ) : (
+          <div className="card text-center py-12">
+            <Calendar size={48} className="mx-auto text-[var(--muted-foreground)] mb-4" />
+            <p className="text-[var(--muted-foreground)]">
+              Aucun événement ne correspond à votre recherche.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button className="btn-primary px-8 py-4" onClick={() => signIn()}>
-                Réserver mon billet
-              </button>
-              <button className="btn-outline px-8 py-4">
-                Découvrir la programmation
-              </button>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 pt-6">
-              <div className="card text-center">
-                <div className="text-3xl font-bold text-[var(--primary)]">3</div>
-                <div className="text-sm text-[var(--muted-foreground)] mt-1">Jours de festival</div>
-              </div>
-              <div className="card text-center">
-                <div className="text-3xl font-bold text-[var(--primary)]">40+</div>
-                <div className="text-sm text-[var(--muted-foreground)] mt-1">Artistes engagés</div>
-              </div>
-              <div className="card text-center">
-                <div className="text-3xl font-bold text-[var(--primary)]">100%</div>
-                <div className="text-sm text-[var(--muted-foreground)] mt-1">Éco-responsable</div>
-              </div>
-            </div>
           </div>
+        )}
 
-          {/* User Card */}
-          <div className="card p-8">
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[var(--secondary)] rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-bold text-[var(--foreground)]">Mon espace</h2>
-              </div>
-
-              {session ? (
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-[var(--muted-foreground)]">Bienvenue,</p>
-                    <p className="text-2xl font-semibold text-[var(--foreground)]">{session.user?.name}</p>
-                  </div>
-
-                  <div className="rounded-xl border border-[var(--border)] bg-[var(--secondary)] p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-1">
-                        <p className="text-sm text-[var(--muted-foreground)]">Statut de votre billet</p>
-                        {(session.user as any).hasTicket ? (
-                          <span className="badge-success">Billet valide</span>
-                        ) : (
-                          <span className="badge-secondary">Aucun billet</span>
-                        )}
-                      </div>
-                      <div className="w-14 h-14 bg-[var(--primary)] rounded-full flex items-center justify-center">
-                        <svg className="w-7 h-7 text-[var(--primary-foreground)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <button className="btn-primary w-full py-3">Mes réservations</button>
-                    <button className="btn-secondary w-full py-3" onClick={() => signOut()}>
-                      Se déconnecter
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <p className="text-[var(--muted-foreground)] leading-relaxed">
-                    Créez votre compte pour réserver vos billets, consulter le programme personnalisé
-                    et rejoindre la communauté du festival.
-                  </p>
-
-                  <button className="btn-primary w-full py-4" onClick={() => signIn()}>
-                    Se connecter / S&apos;inscrire
-                  </button>
-
-                  <div className="flex items-center gap-4 pt-2">
-                    <div className="flex -space-x-2">
-                      <div className="w-10 h-10 rounded-full border-2 border-[var(--background)] bg-[var(--primary)] opacity-80" />
-                      <div className="w-10 h-10 rounded-full border-2 border-[var(--background)] bg-[var(--primary)] opacity-60" />
-                      <div className="w-10 h-10 rounded-full border-2 border-[var(--background)] bg-[var(--primary)] opacity-40" />
-                    </div>
-                    <p className="text-sm text-[var(--muted-foreground)]">
-                      <span className="font-semibold text-[var(--foreground)]">2 847</span> festivaliers inscrits
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
+        {events.length > 6 && (
+          <div className="text-center">
+            <Link href="/programme" className="btn-primary inline-flex items-center gap-2">
+              Voir tous les événements
+              <ArrowRight size={18} />
+            </Link>
           </div>
-        </div>
+        )}
       </section>
 
       {/* Eco Commitment Section */}

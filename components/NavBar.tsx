@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { CalendarDays, User, LogOut, Menu, Calendar } from "lucide-react";
+import { CalendarDays, User, LogOut, Menu, Calendar, Search } from "lucide-react";
 import { useState } from "react";
 
 export default function Navbar() {
@@ -22,8 +22,8 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="flex items-center gap-2 hover:text-festival-ocre transition-colors">
-              <Calendar size={18} />
+            <Link href="/programme" className="flex items-center gap-2 hover:text-festival-ocre transition-colors">
+              <Search size={18} />
               Programme
             </Link>
             
@@ -78,7 +78,7 @@ export default function Navbar() {
         <div className="md:hidden bg-green-900 border-t border-green-800">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link 
-              href="/" 
+              href="/programme" 
               className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-green-800"
               onClick={() => setIsMobileMenuOpen(false)}
             >

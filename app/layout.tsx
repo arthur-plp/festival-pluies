@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Providers from "@/components/SessionProvider";
+import ToastProvider from "@/components/ToastProvider";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}>
+        <ToastProvider />
         <Providers>
           <div className="flex flex-col min-h-screen">
             <Navbar />
