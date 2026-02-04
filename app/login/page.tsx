@@ -39,66 +39,96 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-stone-100 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-xl p-8 border border-stone-200">
-        <h2 className="text-3xl font-bold text-center text-green-900 mb-6">
-          Connexion
-        </h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {error && (
-            <div className="p-3 bg-red-100 text-red-700 rounded text-sm text-center">
-              {error}
+    <div className="min-h-screen px-4 py-12">
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-2">
+        <div className="space-y-6">
+          <div className="badge-primary w-fit">Espace personnel</div>
+          <h1 className="text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight">
+            Connectez-vous pour accéder à votre agenda
+          </h1>
+          <p className="text-lg text-[var(--muted-foreground)]">
+            Suivez vos réservations, préparez votre planning et recevez les infos du festival.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="card">
+              <p className="text-sm text-[var(--muted-foreground)]">Accès rapide</p>
+              <p className="text-xl font-semibold text-[var(--foreground)]">Programme personnalisé</p>
             </div>
-          )}
+            <div className="card">
+              <p className="text-sm text-[var(--muted-foreground)]">Communauté</p>
+              <p className="text-xl font-semibold text-[var(--foreground)]">Alertes & nouveautés</p>
+            </div>
+          </div>
+        </div>
 
-          <div>
-            <label className="block text-sm font-medium text-stone-700">
-              Adresse Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 bg-white border border-stone-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-              placeholder="admin@test.com"
-            />
+        <div className="card">
+          <div className="mb-6 space-y-2 text-center">
+            <h2 className="text-2xl font-semibold text-[var(--foreground)]">Connexion</h2>
+            <p className="text-sm text-[var(--muted-foreground)]">
+              Accédez à votre espace personnel
+            </p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-stone-700">
-              Mot de passe
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 bg-white border border-stone-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-              placeholder="••••••••"
-            />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <div className="rounded-lg border border-[var(--error)]/30 bg-[var(--error)]/10 px-3 py-2 text-sm text-[var(--error)] text-center">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <label className="label">Adresse email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="input"
+                placeholder="admin@test.com"
+                autoComplete="email"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="label">Mot de passe</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="input"
+                placeholder="••••••••"
+                autoComplete="current-password"
+              />
+            </div>
+
+            <div className="flex items-center justify-between text-sm text-[var(--muted-foreground)]">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" className="h-4 w-4 rounded border-[var(--border)]" />
+                Se souvenir de moi
+              </label>
+              <span className="text-[var(--primary)] hover:opacity-80 cursor-pointer">
+                Mot de passe oublié ?
+              </span>
+            </div>
+
+            <button type="submit" className="btn-primary w-full">
+              Se connecter
+            </button>
+          </form>
+
+          <div className="mt-6 text-center text-sm text-[var(--muted-foreground)]">
+            Pas encore de compte ?{" "}
+            <span className="text-[var(--primary)] font-medium hover:opacity-80 cursor-pointer">
+              S&apos;inscrire (Bientôt)
+            </span>
           </div>
 
-          <button
-            type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
-          >
-            Se connecter
-          </button>
-        </form>
-
-        <p className="mt-4 text-center text-sm text-stone-500">
-          Pas encore de compte ?{" "}
-          <a href="#" className="font-medium text-green-700 hover:text-green-600">
-            S&apos;inscrire (Bientôt)
-          </a>
-        </p>
-        
-        <div className="mt-8 pt-4 border-t border-stone-100 text-xs text-stone-400 text-center">
-          <p>Comptes de démo :</p>
-          <p>admin@test.com / password123</p>
-          <p>newbie@test.com / password123</p>
+          <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 p-3 text-xs text-[var(--muted-foreground)]">
+            <p className="font-semibold text-[var(--foreground)]">Comptes de démo</p>
+            <p>admin@test.com / password123</p>
+            <p>newbie@test.com / password123</p>
+          </div>
         </div>
       </div>
     </div>
