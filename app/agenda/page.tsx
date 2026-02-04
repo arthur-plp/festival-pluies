@@ -13,7 +13,7 @@ export default async function AgendaPage() {
     redirect("/login");
   }
 
-  const myEvents = await getMyBookings((session.user as any).id);
+  const myEvents = await getMyBookings(session.user.id);
 
   return (
     <div className="space-y-12">

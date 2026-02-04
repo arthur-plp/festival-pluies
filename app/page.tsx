@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calendar, Users, Music, Mic, Palette, Mail, ArrowRight, Sparkles, MapPin, Search } from "lucide-react";
+import { Calendar, Users, Music, Mic, Palette, ArrowRight } from "lucide-react";
 import { getEvents } from "@/lib/data";
 import EventCard from "@/components/EventCard";
 import HeroSection from "@/components/HeroSection";

@@ -59,7 +59,7 @@ export default function HeroSection() {
                 <div className="rounded-lg border border-[var(--border)] p-4 bg-[var(--secondary)]/40">
                   <p className="text-sm text-[var(--muted-foreground)]">Statut billet</p>
                   <p className="text-lg font-semibold">
-                    {(session.user as any).hasTicket ? "✅ Valide" : "❌ Aucun billet"}
+                    {(session.user.hasTicket ? "✅ Valide" : "❌ Aucun billet")}
                   </p>
                 </div>
 

@@ -6,17 +6,6 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import BookingButton from "./BookingButton";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id?: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    };
-  }
-}
-
 // Helper pour formater la date proprement
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat("fr-FR", {
@@ -136,7 +125,7 @@ export default function EventCard({ event }: EventCardProps) {
           <BookingButton
             eventId={event.id}
             isBooked={isBooked}
-            hasTicket={(session?.user as any)?.hasTicket || false}
+            hasTicket={session?.user.hasTicket || false}
             isLoggedIn={!!session}
             onBookingChange={refreshBookingStatus}
           />  

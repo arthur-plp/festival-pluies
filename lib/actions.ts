@@ -13,8 +13,8 @@ export async function toggleBooking(eventId: string) {
     return { error: "Vous devez être connecté." };
   }
 
-  const userId = (session.user as any).id;
-  const userHasTicket = (session.user as any).hasTicket;
+  const userId = session.user.id;
+  const userHasTicket = session.user.hasTicket;
 
   // 2. Vérification métier : Billet obligatoire
   if (!userHasTicket) {
@@ -47,10 +47,10 @@ export async function toggleBooking(eventId: string) {
           eventId: eventId,
         },
       });
-      revalidatePath("/"); // Rafraîchir la page
+      revalidatePath("/");
       return { status: "added" };
     }
-  } catch (e) {
+  } catch {
     return { error: "Une erreur est survenue." };
   }
 }

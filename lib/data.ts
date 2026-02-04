@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
 export async function getEvents(query?: string, category?: string) {
-  const whereClause: any = {};
+  const whereClause: Record<string, unknown> = {};
 
   if (query) {
    whereClause.OR = [
