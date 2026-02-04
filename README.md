@@ -96,7 +96,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 - [x] Catalogue : Liste des conférences avec filtres (Thème/Date).
 - [x] Logique Métier : Vérification de la possession d'un billet avant réservation.
 - [x] Agenda Perso : Ajout/Retrait de conférences à "Mon Programme".
-- [ ] Paiement (Mocké) : Simulation d'achat de billet.
+- [x] Paiement : Simulation d'achat de billet.
 
 ## 🤖 Utilisation de l'IA
 Conformément aux contraintes du projet, des outils d'IA ont été utilisés :
